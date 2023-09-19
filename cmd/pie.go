@@ -32,7 +32,7 @@ func PieRun() {
 
 	line := charts.Pie{Title: title, Data: pieData}
 	http.HandleFunc("/", line.RenderGraph)
-	fmt.Println("Check you graph here: http://localhost:6449/")
+	fmt.Println("Check you graph here http://localhost:6449/")
 	http.ListenAndServe(":6449", nil)
 
 }

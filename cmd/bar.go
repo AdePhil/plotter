@@ -41,7 +41,7 @@ func BarRun() {
 
 	bar := charts.Bar{Title: title, SeriesData: seriesData, XValues: ParseToXValues(xValues)}
 	http.HandleFunc("/", bar.RenderGraph)
-	fmt.Println("Check you graph here: http://localhost:6449/")
+	fmt.Println("Check you graph here http://localhost:6449/")
 	http.ListenAndServe(":6449", nil)
 
 }
