@@ -18,6 +18,7 @@ var barCmd = &cobra.Command{
 }
 
 func BarRun() {
+	title, _ := prompts.GetTitle()
 	yValues, err := prompts.GetSeriesData()
 
 	if err != nil {
@@ -38,7 +39,7 @@ func BarRun() {
 		return
 	}
 
-	bar := charts.Bar{SeriesData: seriesData, XValues: ParseToXValues(xValues)}
+	bar := charts.Bar{Title: title, SeriesData: seriesData, XValues: ParseToXValues(xValues)}
 	http.HandleFunc("/", bar.RenderGraph)
 	fmt.Println("Check you graph here: http://localhost:6449/")
 	http.ListenAndServe(":6449", nil)

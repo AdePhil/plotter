@@ -13,6 +13,7 @@ type Line struct {
 	XValues    []interface{}
 	SeriesData []opts.LineData
 	Smooth     bool
+	Title      string
 }
 
 func (line Line) RenderGraph(w http.ResponseWriter, r *http.Request) {
@@ -22,7 +23,7 @@ func (line Line) RenderGraph(w http.ResponseWriter, r *http.Request) {
 func (lineData Line) drawLineChart(w io.Writer) {
 	line := charts.NewLine()
 	line.SetGlobalOptions(
-		charts.WithTitleOpts(opts.Title{Title: "All countries in the world by population", Left: "center"}),
+		charts.WithTitleOpts(opts.Title{Title: lineData.Title, Left: "center"}),
 		charts.WithInitializationOpts(opts.Initialization{Theme: types.ThemeWesteros}),
 		charts.WithLegendOpts(opts.Legend{Show: false}))
 

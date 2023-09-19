@@ -62,3 +62,14 @@ func GetPieData() (string, error) {
 	}
 	return prompt.Run()
 }
+
+func GetTitle() (string, error) {
+	validate := func(input string) error {
+		return nil
+	}
+	prompt := promptui.Prompt{
+		Label:    "Enter chart title ",
+		Validate: validate,
+	}
+	return prompt.Run()
+}

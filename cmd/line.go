@@ -18,6 +18,7 @@ var lineCmd = &cobra.Command{
 }
 
 func LineRun(isSmooth bool) {
+	title, _ := prompts.GetTitle()
 	yValues, err := prompts.GetSeriesData()
 
 	if err != nil {
@@ -38,7 +39,7 @@ func LineRun(isSmooth bool) {
 		return
 	}
 
-	line := charts.Line{SeriesData: seriesData, XValues: ParseToXValues(xValues), Smooth: isSmooth}
+	line := charts.Line{Title: title, SeriesData: seriesData, XValues: ParseToXValues(xValues), Smooth: isSmooth}
 	http.HandleFunc("/", line.RenderGraph)
 	fmt.Println("Check you graph here: http://localhost:6449/")
 	http.ListenAndServe(":6449", nil)

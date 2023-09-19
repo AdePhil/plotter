@@ -10,7 +10,8 @@ import (
 )
 
 type Pie struct {
-	Data []opts.PieData
+	Data  []opts.PieData
+	Title string
 }
 
 func (pie Pie) RenderGraph(w http.ResponseWriter, r *http.Request) {
@@ -20,7 +21,7 @@ func (pie Pie) RenderGraph(w http.ResponseWriter, r *http.Request) {
 func (pieData Pie) drawLineChart(w io.Writer) {
 	pie := charts.NewPie()
 	pie.SetGlobalOptions(charts.WithInitializationOpts(opts.Initialization{Theme: types.ThemeWesteros}),
-		charts.WithTitleOpts(opts.Title{Title: "All countries in the world by population", Left: "center"}),
+		charts.WithTitleOpts(opts.Title{Title: pieData.Title, Left: "center"}),
 		charts.WithLegendOpts(opts.Legend{Show: true, Y: "30"}),
 	)
 

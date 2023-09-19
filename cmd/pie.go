@@ -18,6 +18,7 @@ var pieCmd = &cobra.Command{
 }
 
 func PieRun() {
+	title, _ := prompts.GetTitle()
 	input, err := prompts.GetPieData()
 	if err != nil {
 		fmt.Println("Error:", err)
@@ -29,7 +30,7 @@ func PieRun() {
 		return
 	}
 
-	line := charts.Pie{Data: pieData}
+	line := charts.Pie{Title: title, Data: pieData}
 	http.HandleFunc("/", line.RenderGraph)
 	fmt.Println("Check you graph here: http://localhost:6449/")
 	http.ListenAndServe(":6449", nil)
