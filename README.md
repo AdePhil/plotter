@@ -1,3 +1,3 @@
 # plotter
 
-A simple cli application for plotter charts
+A simple cli application for plotting charts
