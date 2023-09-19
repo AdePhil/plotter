@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/opts"
+	"github.com/go-echarts/go-echarts/v2/types"
 )
 
 type Pie struct {
@@ -18,7 +19,7 @@ func (pie Pie) RenderGraph(w http.ResponseWriter, r *http.Request) {
 
 func (pieData Pie) drawLineChart(w io.Writer) {
 	pie := charts.NewPie()
-	pie.SetGlobalOptions(
+	pie.SetGlobalOptions(charts.WithInitializationOpts(opts.Initialization{Theme: types.ThemeWesteros}),
 		charts.WithTitleOpts(opts.Title{Title: "All countries in the world by population", Left: "center"}),
 		charts.WithLegendOpts(opts.Legend{Show: true, Y: "30"}),
 	)
