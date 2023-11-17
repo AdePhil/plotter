@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"errors"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -24,6 +25,13 @@ func ParseToPieValues(input string) ([]opts.PieData, error) {
 	}
 	return results, nil
 }
+func ParseToPie(data []int, labels []string) []opts.PieData {
+	results := []opts.PieData{}
+	for i, _ := range data {
+		results = append(results, opts.PieData{Name: labels[i], Value: data[i]})
+	}
+	return results
+}
 func ParseToBarValues(input string) ([]opts.BarData, error) {
 	r1, err := getNumbers(input)
 	if err != nil {
@@ -36,14 +44,20 @@ func ParseToBarValues(input string) ([]opts.BarData, error) {
 }
 
 func ParseToLineValues(input string) ([]opts.LineData, error) {
-	r1, err := getNumbers(input)
+	nums, err := getNumbers(input)
 	if err != nil {
 		return nil, err
 	}
 
-	return TransformType[int, opts.LineData](r1, func(num int) opts.LineData {
+	return TransformType[int, opts.LineData](nums, func(num int) opts.LineData {
 		return opts.LineData{Value: num}
 	}), nil
+}
+
+func ParseToLine(nums []int) []opts.LineData {
+	return TransformType[int, opts.LineData](nums, func(num int) opts.LineData {
+		return opts.LineData{Value: num}
+	})
 }
 
 func TransformType[T comparable, K comparable](values []T, op func(T) K) []K {
@@ -84,4 +98,39 @@ func getNumbers(input string) ([]int, error) {
 	}
 
 	return result, nil
+}
+
+func extractValues(input string, key string) (value string) {
+	regex := regexp.MustCompile(key + `: (.+)`)
+	match := regex.FindStringSubmatch(input)
+	if len(match) > 1 {
+		value = match[1]
+	}
+	return value
+}
+
+func parseList(input string) []string {
+	return regexp.MustCompile(`\s*,\s*`).Split(input, -1)
+}
+
+func parseIntList(input string) []int {
+	var result []int
+	values := parseList(input)
+	for _, v := range values {
+		num, err := strconv.Atoi(strings.Trim(v, " "))
+		if err == nil {
+			result = append(result, num)
+		}
+	}
+	return result
+}
+
+func ParseAiValues(input string)(string, string, []string, []int, []string,) {
+	 chartType := extractValues(input, "Chart Type")
+	 colors := parseList(extractValues(input, "Colors"))
+	 seriesData := parseIntList(extractValues(input, "Series data"))
+	 labels  := parseList(extractValues(input, "Labels"))
+	 title      := extractValues(input, "Title")
+
+  return chartType, title, colors, seriesData, labels
 }

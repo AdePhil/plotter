@@ -27,6 +27,9 @@ var RootCmd = &cobra.Command{
 			LineRun(true)
 		} else if chartType == types.PIE {
 			PieRun()
+		}else if chartType == "Use Ai" {
+			AiRun()
 		}
+		
 	},
 }

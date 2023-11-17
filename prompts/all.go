@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/manifoldco/promptui"
+	"github.com/tigergraph/promptui"
 )
 
 func GetXData() (string, error) {
@@ -69,6 +69,17 @@ func GetTitle() (string, error) {
 	}
 	prompt := promptui.Prompt{
 		Label:    "Enter chart title ",
+		Validate: validate,
+	}
+	return prompt.Run()
+}
+
+func GetAiPrompt() (string, error) {
+	validate := func(input string) error {
+		return nil
+	}
+	prompt := promptui.Prompt{
+		Label:    "Type a prompt detailing the chart you want",
 		Validate: validate,
 	}
 	return prompt.Run()
